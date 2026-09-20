@@ -1,5 +1,4 @@
 import * as jobService from "../services/job.service.js";
-import { AppError } from "../utils/AppError.js";
 import { parseId } from "../utils/parseId.js";
 
 // The API speaks camelCase; the database speaks snake_case. This is the translation point.
@@ -17,9 +16,6 @@ function toJobFields(body) {
 
 export async function createJob(req, res) {
   const data = toJobFields(req.body);
-  if (!data.title || !data.description) {
-    throw new AppError("title and description are required", 400);
-  }
   const job = await jobService.createJob(req.user.id, data);
   res.status(201).json({ job });
 }

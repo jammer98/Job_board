@@ -1,5 +1,4 @@
 import * as applicationService from "../services/application.service.js";
-import { AppError } from "../utils/AppError.js";
 import { parseId } from "../utils/parseId.js";
 
 export async function applyToJob(req, res) {
@@ -12,9 +11,6 @@ export async function applyToJob(req, res) {
   }
 
   const coverLetter = req.body.coverLetter;
-  if (coverLetter && coverLetter.length > 5000) {
-    throw new AppError("coverLetter must be 5000 characters or fewer", 400);
-  }
 
   const application = await applicationService.applyToJob({
     jobId,

@@ -19,7 +19,9 @@ export function errorHandler(err, req, res, next) {
       err.code === "LIMIT_FILE_SIZE" ? "File is too large (max 5 MB)" : err.message;
     return res.status(400).json({ error: message });
   }
-
+    if (err.type === "entity.too.large") {
+    return res.status(413).json({ error: "Request body too large" });
+  }
   // Postgres: unique violation / foreign key violation
   if (err.code === "23505") {
     return res.status(409).json({ error: "This record already exists" });

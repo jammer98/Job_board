@@ -1,12 +1,8 @@
 import * as companyService from "../services/company.service.js";
-import { AppError } from "../utils/AppError.js";
 import { parseId } from "../utils/parseId.js";
 
 export async function createCompany(req, res) {
-  const { name, description, website } = req.body;
-  if (!name) throw new AppError("name is required", 400);
-
-  const company = await companyService.createCompany(req.user.id, { name, description, website });
+  const company = await companyService.createCompany(req.user.id, req.body);
   res.status(201).json({ company });
 }
 
@@ -16,8 +12,7 @@ export async function getMyCompany(req, res) {
 }
 
 export async function updateMyCompany(req, res) {
-  const { name, description, website } = req.body;
-  const company = await companyService.updateMyCompany(req.user.id, { name, description, website });
+  const company = await companyService.updateMyCompany(req.user.id, req.body);
   res.status(200).json({ company });
 }
 
